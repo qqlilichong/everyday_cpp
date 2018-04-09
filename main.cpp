@@ -1,13 +1,15 @@
 
 #include <iostream>
-#include <vector>
 using namespace std ;
+
+#include <boost/thread.hpp>
 
 int main()
 {
-    vector v1 = { 1, 2, 3 } ;
-    auto v2 = std::move( v1 ) ;
-    cout << v1.size() << endl ;
-    cout << v2.size() << endl ;
+    boost::thread th( []{
+        cout << "Hello,World" << endl ;
+    } ) ;
+
+    th.join() ;
     return 0 ;
 }
