@@ -68,7 +68,7 @@ namespace unit0002 {
     {
         cout << "<variadic template> : " << FL << endl ;
 
-        C<A, B> obj ;
+        C< A, B > obj ;
         cout << obj.a << endl ;
         cout << obj.b << endl ;
         cout << obj.c << endl ;
@@ -87,13 +87,13 @@ namespace unit0002 {
 namespace unit0003 {
 
     template<class... Ts> struct visitor : Ts... { using Ts::operator()... ; } ;
-    template<class... Ts> visitor( Ts... ) -> visitor<Ts...> ;
+    template<class... Ts> visitor( Ts... ) -> visitor< Ts... > ;
 
     auto test()
     {
         cout << "<deduction guide> : " << FL << endl ;
 
-        std::variant<int, const char*, string_view> var ;
+        std::variant< int, const char*, string_view > var ;
         visitor vs {
                 []( int n ) { cout << "int : " << n << endl ; },
                 []( const char* p ) { cout << "const char* : " << p << endl ; },
