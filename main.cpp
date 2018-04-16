@@ -155,6 +155,8 @@ namespace unit0004 {
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
+void boost_test() ;
+
 int main()
 {
     for ( auto&& test : {
@@ -162,6 +164,7 @@ int main()
             unit0002::test,
             unit0003::test,
             unit0004::test,
+            boost_test,
     } ) test() ;
 
     return 0 ;
