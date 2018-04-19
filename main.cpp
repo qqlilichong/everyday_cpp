@@ -1,8 +1,10 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
+#include <tuple>
 #include <vector>
 #include <variant>
+#include <utility>
 #include <iostream>
 using namespace std ;
 
@@ -128,15 +130,15 @@ namespace unit0004 {
     auto printone( T&& t )
     {
         cout << t
-             << "," << std::is_lvalue_reference_v< decltype( t ) >
-             << "," << std::is_rvalue_reference_v< decltype( t ) >
+             << "," << std::is_lvalue_reference_v< T >
+             << "," << std::is_rvalue_reference_v< T >
              << endl ;
     }
 
     template<class... Ts>
     auto print( Ts&&... args )
     {
-        ( printone( std::forward<Ts>( args ) ), ... ) ;
+        ( printone( std::forward< Ts >( args ) ), ... ) ;
     }
 
     auto test()
@@ -155,6 +157,34 @@ namespace unit0004 {
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
+namespace unit0005 {
+
+    template<class T, size_t... I>
+    void printall( T&& t, std::index_sequence< I... > )
+    {
+        ( ( cout << std::get< I >( t ) << endl ), ... ) ;
+    }
+
+    template<class T>
+    void printall( T&& t )
+    {
+        printall( std::forward< T >( t ),
+                  std::make_index_sequence< std::tuple_size_v< std::decay_t< T > > >() ) ;
+    }
+
+    auto test()
+    {
+        cout << "<tuple> : " << FL << endl ;
+
+        auto xx = std::make_tuple( (int)100, (double)3.1415, (char)'Y' ) ;
+        printall( xx ) ;
+
+        cout << endl ;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+
 void boost_test() ;
 
 int main()
@@ -164,6 +194,7 @@ int main()
             unit0002::test,
             unit0003::test,
             unit0004::test,
+            unit0005::test,
             boost_test,
     } ) test() ;
 
