@@ -4,7 +4,6 @@
 #include <tuple>
 #include <vector>
 #include <variant>
-#include <utility>
 #include <iostream>
 using namespace std ;
 
@@ -95,7 +94,7 @@ namespace unit0003 {
     {
         cout << "<deduction guide> : " << FL << endl ;
 
-        std::variant< int, const char*, string_view > var ;
+        variant< int, const char*, string_view > var ;
         visitor vs {
                 []( int n ) { cout << "int : " << n << endl ; },
                 []( const char* p ) { cout << "const char* : " << p << endl ; },
@@ -103,13 +102,13 @@ namespace unit0003 {
         } ;
 
         var = 1314 ;
-        std::visit( vs, var ) ;
+        visit( vs, var ) ;
 
         var = "raw_string" ;
-        std::visit( vs, var ) ;
+        visit( vs, var ) ;
 
         var = "string_view"s ;
-        std::visit( vs, var ) ;
+        visit( vs, var ) ;
 
         cout << endl ;
     }
@@ -130,8 +129,8 @@ namespace unit0004 {
     auto printone( T&& t )
     {
         cout << t
-             << "," << std::is_lvalue_reference_v< T >
-             << "," << std::is_rvalue_reference_v< T >
+             << "," << is_lvalue_reference_v< T >
+             << "," << is_rvalue_reference_v< T >
              << endl ;
     }
 
@@ -160,27 +159,65 @@ namespace unit0004 {
 namespace unit0005 {
 
     template<class T, size_t... I>
-    void printall( T&& t, std::index_sequence< I... > )
+    void printall( T&& t, index_sequence< I... > )
     {
-        ( ( cout << std::get< I >( t ) << endl ), ... ) ;
+        ( ( cout << get< I >( t ) << endl ), ... ) ;
     }
 
     template<class T>
     void printall( T&& t )
     {
         printall( std::forward< T >( t ),
-                  std::make_index_sequence< std::tuple_size_v< std::decay_t< T > > >() ) ;
+                  make_index_sequence< tuple_size_v< decay_t< T > > >() ) ;
     }
 
     auto test()
     {
         cout << "<tuple> : " << FL << endl ;
 
-        auto xx = std::make_tuple( (int)100, (double)3.1415, (char)'Y' ) ;
+        auto xx = make_tuple( (int)100, (double)3.1415, (char)'Y' ) ;
         printall( xx ) ;
 
         cout << endl ;
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+namespace unit0006 {
+
+    template<size_t IL, size_t IR>
+    using is_sameint = is_same< integral_constant< size_t, IL >, integral_constant< size_t, IR > > ;
+
+    auto case1()
+    {
+        constexpr size_t a = 666 ;
+        constexpr size_t b = 999 ;
+        constexpr size_t c = 3 * 3 ;
+        constexpr size_t d = 7 + 2 ;
+
+        // ( a == b ) || ( c == d )
+        cout << disjunction_v<
+                is_sameint< a, b >,
+                is_sameint< c, d >
+        > << endl ;
+
+        // ( a == b ) && ( c == d )
+        cout << conjunction_v<
+                is_sameint< a, b >,
+                is_sameint< c, d >
+        > << endl ;
+    }
+
+    auto test()
+    {
+        cout << "<type_traits> : " << FL << endl ;
+
+        case1() ;
+
+        cout << endl ;
+    }
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -195,6 +232,7 @@ int main()
             unit0003::test,
             unit0004::test,
             unit0005::test,
+            unit0006::test,
             boost_test,
     } ) test() ;
 
