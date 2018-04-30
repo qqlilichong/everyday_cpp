@@ -16,5 +16,6 @@ link_libraries(boost_system)
 link_libraries(boost_coroutine)
 link_libraries(boost_context)
 link_libraries(boost_thread)
+link_libraries(pthread)
 
 add_executable(everyday_cpp main.cpp boost.cpp)
