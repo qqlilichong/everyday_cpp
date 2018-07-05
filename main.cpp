@@ -128,16 +128,15 @@ namespace unit0004 {
     template<class T>
     auto printone( T&& t )
     {
-        cout << t
-             << "," << is_lvalue_reference_v< T >
-             << "," << is_rvalue_reference_v< T >
+        cout << is_lvalue_reference_v< T&& >
+             << is_rvalue_reference_v< T&& >
              << endl ;
     }
 
     template<class... Ts>
     auto print( Ts&&... args )
     {
-        ( printone( std::forward< Ts >( args ) ), ... ) ;
+        ( printone( std::forward< Ts&& >( args ) ), ... ) ;
     }
 
     auto test()
@@ -147,7 +146,7 @@ namespace unit0004 {
         cout << add( 1, 2, 3, 4, 5 ) << endl ;
 
         auto sw = "xixi"s ;
-        print( 1.23f, 666, sw, "haha"s ) ;
+        print( 1.23f, 666, sw ) ;
 
         cout << endl ;
     }
@@ -167,8 +166,8 @@ namespace unit0005 {
     template<class T>
     void printall( T&& t )
     {
-        printall( std::forward< T >( t ),
-                  make_index_sequence< tuple_size_v< decay_t< T > > >() ) ;
+        printall( std::forward< T&& >( t ),
+                  make_index_sequence< tuple_size_v< decay_t< T&& > > >() ) ;
     }
 
     auto test()
