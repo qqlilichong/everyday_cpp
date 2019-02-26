@@ -18,4 +18,4 @@ link_libraries(boost_context)
 link_libraries(boost_thread)
 link_libraries(pthread)
 
-add_executable(everyday_cpp main.cpp boost.cpp)
+add_executable(everyday_cpp main.cpp boost.cpp theboostcpplibraries.cpp)

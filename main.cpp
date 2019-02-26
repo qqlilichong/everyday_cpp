@@ -221,18 +221,12 @@ namespace unit0006 {
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-void boost_test() ;
+int theboostcpplibraries_test() ;
 
 int main()
 {
     for ( auto&& test : {
-            unit0001::test,
-            unit0002::test,
-            unit0003::test,
-            unit0004::test,
-            unit0005::test,
-            unit0006::test,
-            boost_test,
+            theboostcpplibraries_test,
     } ) test() ;
 
     return 0 ;
