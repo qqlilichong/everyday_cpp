@@ -22,7 +22,7 @@
 namespace boostcpplib {
 
     // I. RAII and Memory Management
-    namespace chapter01 {
+    inline namespace chapter01 {
 
         auto Unit_SmartPointers()
         {
@@ -175,17 +175,6 @@ namespace boostcpplib {
 
     // III. Containers
     namespace chapter03 {
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-
-namespace boostcpplib {
-    namespace {
-        auto test()
-        {
-            boostcpplib::chapter01::test() ;
-        }
     }
 }
 
