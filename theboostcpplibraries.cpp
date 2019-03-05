@@ -171,11 +171,11 @@ namespace boostcpplib {
             // 全局访问, 线程安全
             // 无法管理类对象
             typedef boost::singleton_pool<struct double_pool, sizeof(double)> tpool_double ;
-            double *pData1 = static_cast<double*>( tpool_double::malloc() ) ;
+            auto pData1 = static_cast<double*>( tpool_double::malloc() ) ;
             *pData1 = 123.45f ;
 
             typedef boost::singleton_pool<struct int_pool, sizeof(int)> tpool_int ;
-            int *pData2 = static_cast<int*>( tpool_int::malloc() ) ;
+            auto pData2 = static_cast<int*>( tpool_int::malloc() ) ;
             *pData2 = 123 ;
 
             std::cout << FL << "[boost::singleton_pool]" << *pData1 << std::endl ;
