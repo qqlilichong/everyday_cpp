@@ -7,13 +7,10 @@
 #include <list>
 
 // boost
-#include <boost/scoped_ptr.hpp>
-#include <boost/scoped_array.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/shared_array.hpp>
-#include <boost/weak_ptr.hpp>
-#include <boost/intrusive_ptr.hpp>
+#include <boost/smart_ptr.hpp>
 #include <boost/ptr_container/ptr_list.hpp>
+#include <boost/pool/object_pool.hpp>
+#include <boost/pool/singleton_pool.hpp>
 
 #define FL __FILE__ << "(" << __LINE__ << ")"
 
@@ -155,7 +152,39 @@ namespace boostcpplib {
 
         auto Unit_Pool()
         {
+            // 对象池可管理类
+            // 模板参数填写类型
+            boost::object_pool<std::string> pool ;
 
+            // 使用construct函数构造对象, 返回类型对应的指针
+            std::string *p1 = pool.construct( "Hello" ) ;
+            std::string *p2 = pool.construct( "World" ) ;
+            std::cout << FL << "[boost::object_pool]" << *p1 << std::endl ;
+            std::cout << FL << "[boost::object_pool]" << *p2 << std::endl ;
+
+            // 释放内存场景
+            // 主动释放 : 使用destroy函数
+            // 被动释放 : pool生命周期结束
+            pool.destroy( p1 ) ;
+
+            // 单例内存池 <唯一标记, 数据块大小>
+            // 全局访问, 线程安全
+            // 无法管理类对象
+            typedef boost::singleton_pool<struct double_pool, sizeof(double)> tpool_double ;
+            double *pData1 = static_cast<double*>( tpool_double::malloc() ) ;
+            *pData1 = 123.45f ;
+
+            typedef boost::singleton_pool<struct int_pool, sizeof(int)> tpool_int ;
+            int *pData2 = static_cast<int*>( tpool_int::malloc() ) ;
+            *pData2 = 123 ;
+
+            std::cout << FL << "[boost::singleton_pool]" << *pData1 << std::endl ;
+            std::cout << FL << "[boost::singleton_pool]" << *pData2 << std::endl ;
+
+            // 释放内存场景
+            // 主动释放 : 使用purge_memory函数
+            // 被动释放 : 生命周期结束
+            tpool_double::purge_memory() ;
         }
 
         auto test()
