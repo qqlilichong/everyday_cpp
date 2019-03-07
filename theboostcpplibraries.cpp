@@ -7,6 +7,7 @@
 #include <list>
 
 // boost
+#include <boost/utility.hpp>
 #include <boost/smart_ptr.hpp>
 #include <boost/ptr_container/ptr_list.hpp>
 #include <boost/pool/object_pool.hpp>
@@ -208,10 +209,83 @@ namespace boostcpplib {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
+// Why Boost?
+
+// C++对指针类型只检查“类声明”
+// 只有在new对象实例时才会检查“类实现”
+
+// 声明一个类
+class MyData ;
+
+// 删除类指向的对象
+void deldata(MyData* ptr)
+{
+    delete ptr ;
+
+    // Boost工具
+    //boost::checked_delete( ptr ) ;
+}
+
+// 类实现
+class MyData
+{
+public:
+    MyData()
+    {
+        std::cout << "MyData create." << std::endl ;
+    }
+
+    ~MyData()
+    {
+        std::cout << "MyData destroy." << std::endl ;
+    }
+};
+
+void whyboost()
+{
+    // 调用者
+    MyData* ptr = new MyData() ;
+    deldata( ptr ) ;
+}
+
+// C++具备一些非注入式特性
+// 在实现者与调用者都不知道的情况下, 就可以改变调用行为
+
+// 实现者
+//class MyData
+//{
+//public:
+//    MyData* get() { return this ; }
+//
+//private:
+//    double data1 ;
+//    int data2 ;
+//};
+
+// 补丁
+//MyData* operator & (MyData& obj)
+//{
+//    return nullptr ;
+//}
+
+//void whyboost()
+//{
+//    // 调用者
+//    MyData obj ;
+//    MyData* ptr = &obj ;
+//    std::cout << "obj : " << ptr << std::endl ;
+//    std::cout << "get : " << obj.get() << std::endl ;
+//
+//    // Boost工具
+//    std::cout << "boost : " << boost::addressof( obj ) << std::endl ;
+//}
+
+////////////////////////////////////////////////////////////////////////////////////////
 
 int theboostcpplibraries_test()
 {
-    boostcpplib::test() ;
+    // whyboost() ;
+    // boostcpplib::test() ;
     return 0 ;
 }
 
