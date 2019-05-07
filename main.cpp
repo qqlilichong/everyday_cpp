@@ -9,6 +9,8 @@ using namespace std ;
 
 #define FL __FILE__ << "(" << __LINE__ << ")"
 
+/*
+
 ////////////////////////////////////////////////////////////////////////////////////////
 
 namespace unit0001 {
@@ -223,11 +225,18 @@ namespace unit0006 {
 
 int theboostcpplibraries_test() ;
 
+*/
+
 int main()
 {
-    for ( auto&& test : {
-            theboostcpplibraries_test,
-    } ) test() ;
+//    for ( auto&& test : {
+//            theboostcpplibraries_test,
+//    } ) test() ;
+
+    for ( auto&& val : { 1, 2, 3 } )
+    {
+        cout << val << endl ;
+    }
 
     return 0 ;
 }
