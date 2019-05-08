@@ -227,11 +227,34 @@ int theboostcpplibraries_test() ;
 
 */
 
+template<int I, int... Is>
+struct Interface;
+
+template<int I>
+struct Interface<I>
+{
+    static int accumulate()
+    {
+        return I;
+    }
+};
+
+template<int I, int... Is>
+struct Interface
+{
+    static int accumulate()
+    {
+        return I + Interface<Is...>::accumulate();
+    }
+};
+
 int main()
 {
 //    for ( auto&& test : {
 //            theboostcpplibraries_test,
 //    } ) test() ;
+
+    cout << Interface<1, 2, 3, 4, 6, 7>::accumulate() << endl ;
 
     for ( auto&& val : { 1, 2, 3 } )
     {
