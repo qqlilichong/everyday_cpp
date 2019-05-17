@@ -7,6 +7,8 @@
 #include <iostream>
 using namespace std ;
 
+#include "variadic_templates.hpp"
+
 #define FL __FILE__ << "(" << __LINE__ << ")"
 
 /*
@@ -221,46 +223,18 @@ namespace unit0006 {
 
 }
 
+*/
 ////////////////////////////////////////////////////////////////////////////////////////
 
-int theboostcpplibraries_test() ;
-
-*/
-
-template<int I, int... Is>
-struct Interface;
-
-template<int I>
-struct Interface<I>
+int unit_test()
 {
-    static int accumulate()
-    {
-        return I;
-    }
-};
-
-template<int I, int... Is>
-struct Interface
-{
-    static int accumulate()
-    {
-        return I + Interface<Is...>::accumulate();
-    }
-};
+    cout << variadic_templates::unit_test() << endl ;
+    return 0 ;
+}
 
 int main()
 {
-//    for ( auto&& test : {
-//            theboostcpplibraries_test,
-//    } ) test() ;
-
-    cout << Interface<1, 2, 3, 4, 6, 7>::accumulate() << endl ;
-
-    for ( auto&& val : { 1, 2, 3 } )
-    {
-        cout << val << endl ;
-    }
-
+    unit_test() ;
     return 0 ;
 }
 

@@ -1,6 +1,5 @@
 
 cmake_minimum_required(VERSION 3.9)
-project(everyday_cpp)
 set(CMAKE_CXX_STANDARD 17)
 
 #if (DEFINED ENV{MINGW_INCLUDE})
@@ -16,6 +15,7 @@ set(CMAKE_CXX_STANDARD 17)
 #link_libraries(boost_context)
 #link_libraries(boost_thread)
 #link_libraries(pthread)
-#
-#add_executable(everyday_cpp main.cpp boost.cpp theboostcpplibraries.cpp)
-add_executable(everyday_cpp main.cpp)
+
+project(everyday_cpp)
+set(SOURCE_FILES variadic_templates.hpp)
+add_executable(everyday_cpp main.cpp ${SOURCE_FILES})
