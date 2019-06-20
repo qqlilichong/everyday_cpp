@@ -2,25 +2,38 @@
 #ifndef FOLD_EXPRESSION
 #define FOLD_EXPRESSION
 
-template <auto LT, auto... RT>
-struct fe_sum
-{
-    static constexpr auto value = LT + (RT + ...) ;
-};
-
-template <auto LT>
-struct fe_sum<LT>
-{
-    static constexpr auto value = LT ;
-};
+#include <string>
+#include <sstream>
 
 namespace fold_expression {
-    inline int unit_test()
+
+    template <typename... ARGS>
+    auto mysum(ARGS&&... args)
     {
-        int result = 0 ;
-        result += fe_sum< 4 >::value ;
-        result += fe_sum< 5, 6, 7 >::value ;
-        return result ;
+        return (... + args) ;
+    }
+
+    template <typename T>
+    auto myfunc(T&& p)
+    {
+        std::stringstream ss ;
+        ss << p ;
+        return ss ;
+    }
+
+    template <typename... ARGS>
+    auto mycall(ARGS&&... args)
+    {
+        return (myfunc(args), ...) ;
+    }
+
+    inline auto unit_test()
+    {
+        mycall(int(1), double(2.3)) ;
+
+        const std::string s1 = "AAA" ;
+        const std::string s2 = "BBB" ;
+        return mysum(s2) + mysum(s1, s2) ;
     }
 }
 
