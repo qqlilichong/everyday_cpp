@@ -1,13 +1,11 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-#include <tuple>
-#include <vector>
-#include <variant>
-#include <iostream>
-using namespace std ;
-
-#include "variadic_templates.hpp"
+//#include <tuple>
+//#include <vector>
+//#include <variant>
+//#include <iostream>
+//using namespace std ;
 
 #define FL __FILE__ << "(" << __LINE__ << ")"
 
@@ -226,9 +224,16 @@ namespace unit0006 {
 */
 ////////////////////////////////////////////////////////////////////////////////////////
 
+#include <iostream>
+using namespace std ;
+
+#include "variadic_templates.hpp"
+#include "fold_expression.hpp"
+
 int unit_test()
 {
     cout << variadic_templates::unit_test() << endl ;
+    cout << fold_expression::unit_test() << endl ;
     return 0 ;
 }
 

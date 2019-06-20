@@ -17,5 +17,11 @@ set(CMAKE_CXX_STANDARD 17)
 #link_libraries(pthread)
 
 project(everyday_cpp)
-set(SOURCE_FILES variadic_templates.hpp)
-add_executable(everyday_cpp main.cpp ${SOURCE_FILES})
+
+set(SOURCE_FILES
+        main.cpp
+        variadic_templates.hpp
+        fold_expression.hpp
+        )
+
+add_executable(everyday_cpp  ${SOURCE_FILES})
