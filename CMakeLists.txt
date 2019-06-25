@@ -22,6 +22,7 @@ set(SOURCE_FILES
         main.cpp
         variadic_templates.hpp
         fold_expression.hpp
+        s_v.hpp
         )
 
 add_executable(everyday_cpp  ${SOURCE_FILES})
