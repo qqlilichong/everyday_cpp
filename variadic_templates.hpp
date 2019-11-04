@@ -4,20 +4,21 @@
 
 namespace variadic_templates {
 
-    template <auto LT, auto... RT>
+    template <auto LV, auto... RV>
     struct mysum
     {
-        static const auto value = LT + mysum<RT...>::value ;
+        static constexpr auto value = LV + mysum<RV...>::value ;
     };
 
-    template <auto LT>
-    struct mysum<LT>
+    template <auto LV>
+    struct mysum<LV>
     {
-        static const auto value = LT ;
+        static constexpr auto value = LV ;
     };
 
     inline auto unit_test()
     {
+        // expect : 116
         return mysum< 99 >::value + mysum< 5, 6 >::value + mysum< 1, 2, 3 >::value ;
     }
 }

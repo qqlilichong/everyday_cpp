@@ -226,14 +226,10 @@ namespace unit0006 {
 
 #include <iostream>
 #include "variadic_templates.hpp"
-#include "fold_expression.hpp"
-#include "s_v.hpp"
 
 int unit_test()
 {
     std::cout << variadic_templates::unit_test() << std::endl ;
-    std::cout << fold_expression::unit_test() << std::endl ;
-    std::cout << s_v::unit_test() << std::endl ;
     return 0 ;
 }
 
