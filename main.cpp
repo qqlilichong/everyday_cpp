@@ -225,11 +225,11 @@ namespace unit0006 {
 ////////////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
-#include "variadic_templates.hpp"
+#include "e_variadic_templates.hpp"
 
 int unit_test()
 {
-    std::cout << variadic_templates::unit_test() << std::endl ;
+    std::cout << e_variadic_templates::ut() << std::endl ;
     return 0 ;
 }
 

@@ -20,7 +20,7 @@ project(everyday_cpp)
 
 set(SOURCE_FILES
         main.cpp
-        variadic_templates.hpp
+        e_variadic_templates.hpp
         )
 
 add_executable(everyday_cpp ${SOURCE_FILES})
