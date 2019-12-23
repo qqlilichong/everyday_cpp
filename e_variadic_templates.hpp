@@ -19,7 +19,7 @@ namespace e_variadic_templates {
     inline auto ut()
     {
         // expect : 116
-        return mysum< 99 >::value + mysum< 5, 6 >::value + mysum< 1, 2, 3 >::value ;
+        return mysum<99>::value + mysum<5, 6>::value + mysum<1, 2, 3>::value ;
     }
 }
 

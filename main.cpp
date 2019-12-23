@@ -222,14 +222,17 @@ namespace unit0006 {
 }
 
 */
+
 ////////////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
 #include "e_variadic_templates.hpp"
+#include "e_fold_expression.hpp"
 
 int unit_test()
 {
     std::cout << e_variadic_templates::ut() << std::endl ;
+    std::cout << e_fold_expression::ut() << std::endl ;
     return 0 ;
 }
 

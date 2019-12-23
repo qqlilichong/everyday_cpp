@@ -21,6 +21,7 @@ project(everyday_cpp)
 set(SOURCE_FILES
         main.cpp
         e_variadic_templates.hpp
+        e_fold_expression.hpp
         )
 
 add_executable(everyday_cpp ${SOURCE_FILES})
