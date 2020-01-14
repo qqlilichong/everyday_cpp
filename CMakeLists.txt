@@ -23,6 +23,7 @@ set(SOURCE_FILES
         e_variadic_templates.hpp
         e_fold_expression.hpp
         e_constexpr.hpp
+        e_structured_bindings.hpp
         )
 
 add_executable(everyday_cpp ${SOURCE_FILES})
