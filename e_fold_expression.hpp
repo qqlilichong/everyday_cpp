@@ -2,8 +2,6 @@
 #ifndef E_FOLD_EXPRESSION
 #define E_FOLD_EXPRESSION
 
-#include <string>
-
 namespace e_fold_expression {
 
     template <typename T, typename R>
@@ -22,7 +20,7 @@ namespace e_fold_expression {
     auto myadd(ARGS&&... args)
     {
         decltype(std::stoll("")) result = 0 ;
-        (myadd(args, result), ...) ;
+        (myadd(std::forward<ARGS>(args), result), ...) ;
         return result ;
     }
 
