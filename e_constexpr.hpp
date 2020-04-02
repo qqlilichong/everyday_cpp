@@ -20,7 +20,7 @@ namespace e_constexpr {
     template <typename T>
     constexpr auto myadd(T&& i)
     {
-        return [=](auto j) {
+        return [=](auto&& j) {
             return i + j ;
         } ;
     }
