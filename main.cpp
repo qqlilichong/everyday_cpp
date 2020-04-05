@@ -231,17 +231,17 @@ namespace unit0006 {
 
 int unit_test()
 {
-    std::cout << e_variadic_templates::ut() << std::endl ;
-    std::cout << e_fold_expression::ut() << std::endl ;
-    std::cout << e_constexpr::ut() << std::endl ;
-    std::cout << e_structured_bindings::ut() << std::endl ;
-    return 0 ;
+    std::cout << e_variadic_templates::ut() << std::endl;
+    std::cout << e_fold_expression::ut() << std::endl;
+    std::cout << e_constexpr::ut() << std::endl;
+    std::cout << e_structured_bindings::ut() << std::endl;
+    return 0;
 }
 
 int main()
 {
-    unit_test() ;
-    return 0 ;
+    unit_test();
+    return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
