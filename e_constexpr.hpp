@@ -9,11 +9,11 @@ namespace e_constexpr {
     {
         if constexpr (sizeof...(rv) == 0)
         {
-            return lv ;
+            return lv;
         }
         else
         {
-            return lv + mysum(std::forward<RT>(rv)...) ;
+            return lv + mysum(std::forward<RT>(rv)...);
         }
     }
 
@@ -21,14 +21,14 @@ namespace e_constexpr {
     constexpr auto myadd(T&& i)
     {
         return [=](auto&& j) {
-            return i + j ;
-        } ;
+            return i + j;
+        };
     }
 
     inline auto ut()
     {
         // expect : 116
-        return mysum(1, 2, 3, 4) + myadd(6)(100) ;
+        return mysum(1, 2, 3, 4) + myadd(6)(100);
     }
 }
 
