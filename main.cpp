@@ -1,12 +1,4 @@
 
-////////////////////////////////////////////////////////////////////////////////////////
-
-//#include <tuple>
-//#include <vector>
-//#include <variant>
-//#include <iostream>
-//using namespace std ;
-
 /*
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -109,44 +101,6 @@ namespace unit0003 {
 
         var = "string_view"s ;
         visit( vs, var ) ;
-
-        cout << endl ;
-    }
-
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-
-namespace unit0004 {
-
-    template<class... Ts>
-    auto add( Ts&&... args )
-    {
-        return ( args + ... ) ;
-    }
-
-    template<class T>
-    auto printone( T&& t )
-    {
-        cout << is_lvalue_reference_v< T&& >
-             << is_rvalue_reference_v< T&& >
-             << endl ;
-    }
-
-    template<class... Ts>
-    auto print( Ts&&... args )
-    {
-        ( printone( std::forward< Ts&& >( args ) ), ... ) ;
-    }
-
-    auto test()
-    {
-        cout << "<fold expression> : " << FL << endl ;
-
-        cout << add( 1, 2, 3, 4, 5 ) << endl ;
-
-        auto sw = "xixi"s ;
-        print( 1.23f, 666, sw ) ;
 
         cout << endl ;
     }
