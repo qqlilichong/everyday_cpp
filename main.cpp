@@ -182,6 +182,7 @@ namespace unit0006 {
 #include "e_fold_expression.hpp"
 #include "e_constexpr.hpp"
 #include "e_structured_bindings.hpp"
+#include "e_string_view.hpp"
 
 int unit_test()
 {
@@ -189,6 +190,7 @@ int unit_test()
     std::cout << e_fold_expression::ut() << std::endl;
     std::cout << e_constexpr::ut() << std::endl;
     std::cout << e_structured_bindings::ut() << std::endl;
+    std::cout << e_string_view::ut() << std::endl;
     return 0;
 }
 
