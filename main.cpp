@@ -1,114 +1,6 @@
 
 /*
 
-////////////////////////////////////////////////////////////////////////////////////////
-
-namespace unit0001 {
-
-    auto test()
-    {
-        cout << "<deduction guide> : " << FL << endl ;
-
-        vector vec = { 1, 2, 3, 4, 5 } ;
-        for ( auto&& i : vec )
-        {
-            cout << "number : " << i << endl ;
-        }
-
-        cout << endl ;
-    }
-
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-
-namespace unit0002 {
-
-    struct A
-    {
-        const int a = 666 ;
-
-        void operator () ( decltype( a ) p )
-        {
-            cout << "struct A operator : " << p << endl ;
-        }
-    } ;
-
-    struct B
-    {
-        const double b = 1.23 ;
-
-        void operator () ( decltype( b ) p )
-        {
-            cout << "struct B operator : " << p << endl ;
-        }
-    } ;
-
-    template<class... Ts>
-    struct C : Ts...
-    {
-        using Ts::operator()... ;
-
-        const char* c = "hehe" ;
-
-        void operator () ( decltype( c ) p )
-        {
-            cout << "struct C operator : " << p << endl ;
-        }
-    } ;
-
-    auto test()
-    {
-        cout << "<variadic template> : " << FL << endl ;
-
-        C< A, B > obj ;
-        cout << obj.a << endl ;
-        cout << obj.b << endl ;
-        cout << obj.c << endl ;
-
-        obj( "operator const char" ) ;
-        obj( 3.1415 ) ;
-        obj( 7788 ) ;
-
-        cout << endl ;
-    }
-
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-
-namespace unit0003 {
-
-    template<class... Ts> struct visitor : Ts... { using Ts::operator()... ; } ;
-    template<class... Ts> visitor( Ts... ) -> visitor< Ts... > ;
-
-    auto test()
-    {
-        cout << "<deduction guide> : " << FL << endl ;
-
-        variant< int, const char*, string_view > var ;
-        visitor vs {
-                []( int n ) { cout << "int : " << n << endl ; },
-                []( const char* p ) { cout << "const char* : " << p << endl ; },
-                []( auto&& v ) { cout << "other : " << v << endl ; },
-        } ;
-
-        var = 1314 ;
-        visit( vs, var ) ;
-
-        var = "raw_string" ;
-        visit( vs, var ) ;
-
-        var = "string_view"s ;
-        visit( vs, var ) ;
-
-        cout << endl ;
-    }
-
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-
 namespace unit0005 {
 
     template<class T, size_t... I>
@@ -183,6 +75,7 @@ namespace unit0006 {
 #include "e_constexpr.hpp"
 #include "e_structured_bindings.hpp"
 #include "e_string_view.hpp"
+#include "e_deduction_guide.hpp"
 
 int unit_test()
 {
@@ -191,6 +84,7 @@ int unit_test()
     std::cout << e_constexpr::ut() << std::endl;
     std::cout << e_structured_bindings::ut() << std::endl;
     std::cout << e_string_view::ut() << std::endl;
+    std::cout << e_deduction_guide::ut() << std::endl;
     return 0;
 }
 

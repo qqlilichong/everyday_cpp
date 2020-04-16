@@ -25,6 +25,7 @@ set(SOURCE_FILES
         e_constexpr.hpp
         e_structured_bindings.hpp
         e_string_view.hpp
+        e_deduction_guide.hpp
         )
 
 add_executable(everyday_cpp ${SOURCE_FILES})
