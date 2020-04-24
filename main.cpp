@@ -1,32 +1,6 @@
 
 /*
 
-namespace unit0005 {
-
-    template<class T, size_t... I>
-    void printall( T&& t, index_sequence< I... > )
-    {
-        ( ( cout << get< I >( t ) << endl ), ... ) ;
-    }
-
-    template<class T>
-    void printall( T&& t )
-    {
-        printall( std::forward< T&& >( t ),
-                  make_index_sequence< tuple_size_v< decay_t< T&& > > >() ) ;
-    }
-
-    auto test()
-    {
-        cout << "<tuple> : " << FL << endl ;
-
-        auto xx = make_tuple( (int)100, (double)3.1415, (char)'Y' ) ;
-        printall( xx ) ;
-
-        cout << endl ;
-    }
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////
 
 namespace unit0006 {
