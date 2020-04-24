@@ -16,7 +16,7 @@ namespace e_deduction_guide {
 
     inline auto ut()
     {
-        auto varvismap = varvis {
+        varvis varvismap {
             [](auto var) {
                 return 100;
             },
