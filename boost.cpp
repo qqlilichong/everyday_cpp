@@ -2,11 +2,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
-using namespace std ;
-
-////////////////////////////////////////////////////////////////////////////////////////
-
-#define BOOST_COROUTINES_NO_DEPRECATION_WARNING
 #include <boost/asio.hpp>
 #include <boost/asio/spawn.hpp>
 #include <boost/asio/ip/tcp.hpp>
@@ -16,84 +11,79 @@ using namespace std ;
 
 namespace boost_asio_spawn {
 
-    auto server_session( auto&& ios, auto&& sock )
+    auto server_session(auto &&ioc, auto &&sock)
     {
-        auto co = [ &ios, sock = std::move( sock ) ] ( auto yield ) mutable
+        boost::asio::spawn(ioc, [&ioc, sock = std::forward<decltype(sock)>(sock)](const boost::asio::yield_context &yield) mutable
         {
-            cout << "server_session begin : " << &sock << endl ;
-
             try
             {
-                while ( true )
+                boost::system::error_code err;
+                do
                 {
-                    boost::system::error_code ec ;
-
-                    char data[ 128 ] = { 0 } ;
-                    const auto size = sock.async_read_some( boost::asio::buffer( data ), yield[ ec ] ) ;
-                    if ( ec )
+                    char data[128] = {0};
+                    const auto size = sock.async_read_some(boost::asio::buffer(data), yield[err]);
+                    if (err)
                     {
-                        break ;
+                        break;
                     }
 
-                    cout << "get data : " << data << endl ;
-                    boost::asio::async_write( sock, boost::asio::buffer( data, size ), yield[ ec ] ) ;
-                    if ( ec )
+                    std::cout << "[BoostAsio-async_read_some] : " << data << std::endl;
+                    boost::asio::async_write(sock, boost::asio::buffer(data, size), yield[err]);
+                    if (err)
                     {
-                        break ;
+                        break;
                     }
-                }
+
+                    if (std::string_view(data) == "exit")
+                    {
+                        ioc.stop();
+                        break;
+                    }
+
+                } while (!err);
             }
-
-            catch ( ... )
+            catch (...)
             {
-
+                throw;
             }
-
-            cout << "server_session end : " << &sock << endl ;
-        } ;
-
-        boost::asio::spawn( ios, std::move( co ) ) ;
+        });
     }
 
-    auto server_acceptor( auto&& ios )
+    auto server_acceptor(auto &&ioc)
     {
-        auto co = [ &ios ] ( auto yield )
+        boost::asio::spawn(ioc, [&ioc](const boost::asio::yield_context &yield)
         {
-            using namespace boost::asio::ip ;
-
             try
             {
-                tcp::acceptor acceptor( ios, tcp::endpoint( tcp::v4(), 7070 ) ) ;
-                while ( true )
+                using namespace boost::asio::ip;
+                tcp::acceptor acceptor(ioc, tcp::endpoint(tcp::v4(), 7070));
+                boost::system::error_code err;
+                do
                 {
-                    boost::system::error_code ec ;
-                    tcp::socket socket( ios ) ;
-                    acceptor.async_accept( socket, yield[ ec ] ) ;
-                    if ( !ec )
+                    tcp::socket socket(ioc);
+                    acceptor.async_accept(socket, yield[err]);
+                    if (!err)
                     {
-                        server_session( ios, std::move( socket ) ) ;
+                        server_session(ioc, std::move(socket));
                     }
-                }
+                } while (!err);
             }
-
-            catch ( ... )
+            catch (...)
             {
-
+                throw;
             }
-        } ;
-
-        boost::asio::spawn( ios, std::move( co ) ) ;
+        });
     }
 
     auto test()
     {
-        boost::asio::io_context ios ;
-        server_acceptor( ios ) ;
-        ios.run() ;
+        boost::asio::io_context ioc;
+        server_acceptor(ioc);
+        ioc.run();
     }
 }
 
-void boost_test()
+void boost_asio_test()
 {
-    //boost_asio_spawn::test() ;
+    boost_asio_spawn::test();
 }

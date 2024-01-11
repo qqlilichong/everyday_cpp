@@ -62,9 +62,12 @@ int unit_test()
     return 0;
 }
 
+void boost_asio_test();
+
 int main()
 {
     unit_test();
+    boost_asio_test();
     return 0;
 }
 
