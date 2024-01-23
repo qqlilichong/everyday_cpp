@@ -83,7 +83,7 @@ namespace boost_asio_spawn {
     }
 }
 
-void boost_asio_test()
+auto boost_asio_spawn_test()
 {
-    boost_asio_spawn::test();
+    return boost_asio_spawn::test();
 }

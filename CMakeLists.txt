@@ -1,22 +1,68 @@
 
 cmake_minimum_required(VERSION 3.27)
-string(REGEX REPLACE "/$" "" CURRENT_FOLDER_ABSOLUTE ${CMAKE_CURRENT_SOURCE_DIR})
-string(REGEX REPLACE ".*/(.*)" "\\1" PROJID ${CURRENT_FOLDER_ABSOLUTE})
 
-# project
-set(CMAKE_CXX_STANDARD 20)
-project(${PROJID})
-MESSAGE(STATUS "ProjectID : ${PROJID}")
-add_executable(${PROJID} main.cpp boost.cpp)
+# Project Config
+project(everyday_cpp)
+add_executable(${CMAKE_PROJECT_NAME})
+target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE
+        $<$<CXX_COMPILER_ID:MSVC>:/bigobj>
+        $<$<CXX_COMPILER_ID:GNU>:-Wa,-mbig-obj>
+)
+target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
+        UNICODE
+        _UNICODE
+)
+set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
+        CXX_STANDARD            20
+        CXX_STANDARD_REQUIRED   ON
+        CXX_EXTENSIONS          OFF
+        OUTPUT_NAME             ${CMAKE_PROJECT_NAME}
+        DEBUG_POSTFIX           "d"
+        UNITY_BUILD             OFF
+        QT_USED                 OFF
+)
 
-# import Boost
-find_package(Boost REQUIRED COMPONENTS ALL PATHS ${BOOST_LIBS_PATH})
-if (Boost_FOUND)
-        MESSAGE(STATUS "Boost LIBS : ${Boost_LIBRARIES}")
-        target_link_libraries(${PROJID} ${Boost_LIBRARIES})
+# Qt Config
+get_target_property(QtUsed ${CMAKE_PROJECT_NAME} QT_USED)
+if (QtUsed)
+        set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
+                AUTOMOC                 ON
+                AUTOUIC                 ON
+                AUTORCC                 ON
+                INCLUDE_CURRENT_DIR     ON
+                QT_VER                  "Qt5"
+                QT_COMPS                "Widgets;Xml;Sql;Network"
+        )
+        get_target_property(QtVer ${CMAKE_PROJECT_NAME} QT_VER)
+        get_target_property(QtComps ${CMAKE_PROJECT_NAME} QT_COMPS)
+        find_package(${QtVer} CONFIG REQUIRED COMPONENTS ${QtComps})
+        foreach (CurComp ${QtComps})
+                target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${QtVer}::${CurComp})
+        endforeach ()
 endif ()
 
-# import winsock
+# Project Files
+# file(GLOB_RECURSE sources CONFIGURE_DEPENDS *.cpp *.h *.ui)
+target_sources(${CMAKE_PROJECT_NAME} PRIVATE
+        main.cpp
+        boost_asio_spawn.cpp
+)
+
+# Import Boost
+find_package(Boost CONFIG REQUIRED PATHS ${BOOST_LIBS_PATH} COMPONENTS ALL)
+if (Boost_FOUND)
+        target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})
+        MESSAGE(STATUS "Boost LIBS : ${Boost_LIBRARIES}")
+endif ()
+
+# Import WinSock
 if (WIN32)
-        target_link_libraries(${PROJID} ws2_32 Mswsock)
+        target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ws2_32 Mswsock)
+endif ()
+
+# Demon Import Package
+find_package(rutils CONFIG REQUIRED PATHS ${CMAKE_CURRENT_LIST_DIR} COMPONENTS collection)
+if (rutils_FOUND)
+        target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ${rutils_LIBRARIES})
+        MESSAGE(STATUS "rutils LIBS : ${rutils_LIBRARIES}")
 endif ()
