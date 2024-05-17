@@ -44,62 +44,41 @@ namespace unit0006 {
 ////////////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
-#include <memory>
 #include "e_variadic_templates.hpp"
 #include "e_fold_expression.hpp"
 #include "e_constexpr.hpp"
 #include "e_structured_bindings.hpp"
 #include "e_string_view.hpp"
 #include "e_deduction_guide.hpp"
-#include "zlib.h"
-#include "lua.hpp"
-
-int lua_test()
-{
-    std::shared_ptr<lua_State> spLuaState(luaL_newstate(), lua_close);
-    luaL_openlibs(spLuaState.get());
-    if (luaL_loadfile(spLuaState.get(), "test.lua") != LUA_OK)
-    {
-        return -1;
-    }
-
-    if (lua_pcall(spLuaState.get(), 0, 0, 0) != LUA_OK)
-    {
-        std::cout << lua_tostring(spLuaState.get(), -1) << std::endl;
-        return -2;
-    }
-
-    if (lua_getglobal(spLuaState.get(), "width") == LUA_TNUMBER)
-    {
-        std::cout << "lua-env [width] : " << lua_tonumber(spLuaState.get(), -1) << std::endl;
-    }
-
-    if (lua_getglobal(spLuaState.get(), "height") == LUA_TNUMBER)
-    {
-        std::cout << "lua-env [height] : " << lua_tonumber(spLuaState.get(), -1) << std::endl;
-    }
-
-    return 0;
-}
+using namespace std;
 
 int unit_test()
 {
-    lua_test();
-    std::cout << "zlib version : " << zlibVersion() << std::endl;
-    std::cout << e_variadic_templates::ut() << std::endl;
-    std::cout << e_fold_expression::ut() << std::endl;
-    std::cout << e_constexpr::ut() << std::endl;
-    std::cout << e_structured_bindings::ut() << std::endl;
-    std::cout << e_string_view::ut() << std::endl;
-    std::cout << e_deduction_guide::ut() << std::endl;
-    return 0;
+    int result = 0;
+    extern void boost_asio_spawn_test();
+    extern int lua_ut_test();
+    extern int zlib_ut_test();
+
+    result = lua_ut_test();
+    cout << "[lua_ut] : " << result << endl;
+
+    result = zlib_ut_test();
+    cout << "[zlib_ut] : " << result << endl;
+
+    cout << e_variadic_templates::ut() << endl;
+    cout << e_fold_expression::ut() << endl;
+    cout << e_constexpr::ut() << endl;
+    cout << e_structured_bindings::ut() << endl;
+    cout << e_string_view::ut() << endl;
+    cout << e_deduction_guide::ut() << endl;
+
+    boost_asio_spawn_test();
+    return result;
 }
 
 int main()
 {
     unit_test();
-    extern void boost_asio_spawn_test();
-    boost_asio_spawn_test();
     return 0;
 }
 

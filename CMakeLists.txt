@@ -45,6 +45,8 @@ endif ()
 # file(GLOB_RECURSE sources CONFIGURE_DEPENDS *.cpp *.h *.ui)
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
         main.cpp
+        lua_ut.cpp
+        zlib_ut.cpp
         boost_asio_spawn.cpp
 )
 
