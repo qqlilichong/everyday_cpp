@@ -15,9 +15,12 @@ namespace e_string_view {
         {
             constexpr auto svu16 = u"utf16 string_view"sv;
             constexpr auto svu32 = U"utf32 string_view"sv;
-            svu16.substr(5);
-            svu32.substr(5);
-            return 116;
+            const auto svu16sub = svu16.substr(5);
+            const auto svu32sub = svu32.substr(5);
+            if (!svu16sub.empty() && !svu32sub.empty())
+            {
+                return 116;
+            }
         }
 
         return 0;

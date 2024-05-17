@@ -65,11 +65,13 @@ int unit_test()
     result = zlib_ut_test();
     cout << "[zlib_ut] : " << result << endl;
 
+    result = e_string_view::ut();
+    cout << "[e_string_view::ut] : " << result << endl;
+
     cout << e_variadic_templates::ut() << endl;
     cout << e_fold_expression::ut() << endl;
     cout << e_constexpr::ut() << endl;
     cout << e_structured_bindings::ut() << endl;
-    cout << e_string_view::ut() << endl;
     cout << e_deduction_guide::ut() << endl;
 
     boost_asio_spawn_test();

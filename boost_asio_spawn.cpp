@@ -36,6 +36,7 @@ namespace boost_asio_spawn {
 
                     if (std::string_view(data) == "exit")
                     {
+                        sock.cancel();
                         ioc.stop();
                         break;
                     }
@@ -75,10 +76,35 @@ namespace boost_asio_spawn {
         });
     }
 
+    auto server_timer(auto &&ioc)
+    {
+        boost::asio::spawn(ioc, [&ioc](const boost::asio::yield_context &yield)
+        {
+            try
+            {
+                boost::asio::steady_timer timer(ioc);
+                timer.expires_after(std::chrono::seconds(5));
+
+                boost::system::error_code err;
+                timer.async_wait(yield[err]);
+                if (!err)
+                {
+                    ioc.stop();
+                }
+            }
+
+            catch (...)
+            {
+                throw;
+            }
+        });
+    }
+
     void test()
     {
         boost::asio::io_context ioc;
         server_acceptor(ioc);
+        server_timer(ioc);
         ioc.run();
     }
 }
