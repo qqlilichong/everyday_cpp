@@ -75,7 +75,7 @@ namespace boost_asio_spawn {
         });
     }
 
-    auto test()
+    void test()
     {
         boost::asio::io_context ioc;
         server_acceptor(ioc);
@@ -83,7 +83,7 @@ namespace boost_asio_spawn {
     }
 }
 
-auto boost_asio_spawn_test()
+void boost_asio_spawn_test()
 {
-    return boost_asio_spawn::test();
+    boost_asio_spawn::test();
 }
